@@ -117,18 +117,29 @@ void exibir_lista_invertida(ListaDuplamenteEncadeada *lista) {
 void remover_valor(ListaDuplamenteEncadeada *lista, int valor) {
     No *anterior = NULL;
     No *atual = lista->inicio;
-    while(atual != NULL && atual->valor < valor){
+
+    while (atual != NULL && atual->valor < valor) {
         anterior = atual;
         atual = atual->proximo;
-        }
-        if(atual == NULL){
+    }
+
+    if (atual == NULL) {
         return;
-        }
-        if(anterior == NULL){
+    }
+
+    if (anterior == NULL) {
         lista->inicio = atual->proximo;
+        if (atual->proximo != NULL) {
+            atual->proximo->anterior = NULL;
         }
-        else{
+    } else {
         anterior->proximo = atual->proximo;
+        if (atual->proximo != NULL) {
+            atual->proximo->anterior = anterior;
+        }
+    }
+    if (atual->proximo != NULL) {
+        atual->proximo->anterior = anterior;
     }
     free(atual);
     lista->quantidade--;
